@@ -1,0 +1,21 @@
+dataset_path: input/pretrain_stage_1/mgm_pretrain_stage_1.jsonl
+export_path: input/pretrain_stage_1/my/data_s2_v1.jsonl # 修改成全量数据集
+
+
+np: 8 # 修改成gpu个数
+process:
+
+    # 图像大小归一
+  - image_resize_mapper:
+
+  - image_watermark_filter:
+      hf_watermark_model: amrul-hzz/watermark_detector # 这里换成模型的本地路径（服务器有可能链不上hugging face,需要手动去网页下载）
+      prob_threshold: 0.7
+
+  - image_captioning_mapper:
+      hf_img2seq: Salesforce/blip2-opt-2.7b
+      keep_original_sample: false  # we only need the recaptioned captions
+      caption_num: 1
+      
+  - remove_repeat_sentences_mapper:
+  - remove_repeated_words_mapper:

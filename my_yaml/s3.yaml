@@ -1,0 +1,13 @@
+dataset_path: input/pretrain_stage_1/data_s2_v1.jsonl
+export_path: input/pretrain_stage_1/my/data_s3_v1.jsonl # 修改成全量数据集
+
+np: 8 # 修改成gpu个数
+process:
+  
+  # 论文中的算子推荐: low action filter and low language id score, 这块改了算子
+  - text_action_filter:                             
+      lang: en                                      
+      max_action_num: 2 # should be low
+  - language_id_score_filter:
+      max_score: 0.61423 # should be low
+  
